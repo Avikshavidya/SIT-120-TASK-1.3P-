@@ -21,14 +21,14 @@
     </div>
 
     <style>
-        
+       
         body {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
         }
 
-        
+        /* Header styling */
         header {
             background-color: #333;
             color: #fff;
@@ -56,6 +56,14 @@
             padding: 20px;
         }
 
+       
+        .project-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            background-color: #f9f9f9;
+        }
+
         
         @media (max-width: 768px) {
             nav ul li {
@@ -68,8 +76,39 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@3.0.0/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-router@4.0.0/dist/vue-router.js"></script>
     <script>
+        // Vue component for a project card
+        const ProjectCard = {
+            props: ['project'],
+            template: `
+                <div class="project-card">
+                    <h2>{{ project.title }}</h2>
+                    <p>{{ project.description }}</p>
+                </div>
+            `
+        };
+
         const Home = { template: '<div class="page">Home Page</div>' };
-        const Projects = { template: '<div class="page">Projects Page</div>' };
+        const Projects = {
+            data() {
+                return {
+                    projects: [
+                        { title: 'Project 1', description: 'Description for Project 1' },
+                        { title: 'Project 2', description: 'Description for Project 2' },
+                        { title: 'Project 3', description: 'Description for Project 3' }
+                    ]
+                };
+            },
+            components: {
+                'project-card': ProjectCard
+            },
+            template: `
+                <div class="page">
+                    <h1>Projects</h1>
+                    <project-card v-for="(project, index) in projects" :key="index" :project="project"></project-card>
+                </div>
+            `
+        };
+
         const About = { template: '<div class="page">About Page</div>' };
 
         const router = VueRouter.createRouter({
